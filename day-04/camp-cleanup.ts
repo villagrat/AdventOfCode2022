@@ -34,7 +34,17 @@ type Count = number;
 
 /*
     Part 2
+    Find the n° of pairs that overlap at all
 
+    eg:
+    2-4,6-8
+    2-3,4-5
+    5-7,7-9
+    2-8,3-7
+    6-6,4-6
+    2-6,4-8
+    ^ no overlap @ first 2 pairs
+      some overlap @ 3rd thru 6th pairs
 */
 
 (async function processLineByLine(): Promise<any> {
@@ -62,13 +72,15 @@ type Count = number;
 
         // check if either range completely contains the other
         if (
-          (firstElfRange[0] <= secondElfRange[0] &&
-            firstElfRange[1] >= secondElfRange[1]) ||
-          (firstElfRange[0] >= secondElfRange[0] &&
-            firstElfRange[1] <= secondElfRange[1])
+          firstElfRange[1] === secondElfRange[0] ||
+          firstElfRange[0] === secondElfRange[1] ||
+          (firstElfRange[1] > secondElfRange[0] &&
+            firstElfRange[1] <= secondElfRange[1]) ||
+          (secondElfRange[1] > firstElfRange[0] &&
+            secondElfRange[1] <= firstElfRange[1])
         ) {
           console.log(
-            'found completely contained intervals: ',
+            'found partially contained intervals: ',
             firstElfRange,
             secondElfRange
           );
